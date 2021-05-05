@@ -1,0 +1,51 @@
+# https://docs.github.com/ja/actions/guides/publishing-nodejs-packages
+name: Node.js Package pre release
+on:
+  release:
+    types: [prereleased]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: npm_pkg
+
+    steps:
+    - uses: actions/checkout@v2
+
+    # GitHub Packages に公開するように .npmrc ファイルを設定する
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
+        registry-url: 'https://npm.pkg.github.com'
+        # デフォルトはワークフローファイルを所有するユーザまたは Organization
+        # scope: '@octocat'
+
+    # https://docs.github.com/ja/free-pro-team@latest/actions/guides/caching-dependencies-to-speed-up-workflows
+    - name: Cache node modules
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-node-modules
+      with:
+        # npm キャッシュファイルは Linux/macOS の「~/.npm」に保存される
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+
+    # https://dev.classmethod.jp/articles/github-actions-npm-automatic-release/
+    # publishConfig を書き換えるようにしたら利用
+    # - name: can-npm-publish
+    #   run: npx can-npm-publish
+
+    - name: Install modules
+      run: npm ci
+
+    - name: Run tests
+      run: npm run test
+
+    - name: Build
+      run: npm run build
+
+    - run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

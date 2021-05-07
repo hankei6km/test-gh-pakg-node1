@@ -7,11 +7,14 @@ on:
       - published
 jobs:
   publish_to_npmjs:
-    if: ${{ github.event.release.prerelease ==  false }}
+    # if: ${{ github.event.release.prerelease ==  false }}
     runs-on: ubuntu-latest
     environment: npm_pkg
 
     steps:
+    - name: event
+      run: "echo '${{ toJSON(github.event) }}'"
+
     - uses: actions/checkout@v2
 
     # npm に公開するように .npmrc ファイルを設定する

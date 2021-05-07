@@ -19,7 +19,7 @@ jobs:
         node-version: '14.x'
         registry-url: 'https://npm.pkg.github.com'
         # デフォルトはワークフローファイルを所有するユーザまたは Organization
-        # scope: '@octocat'
+        scope: '@hankei6km'
 
     # https://docs.github.com/ja/free-pro-team@latest/actions/guides/caching-dependencies-to-speed-up-workflows
     - name: Cache node modules

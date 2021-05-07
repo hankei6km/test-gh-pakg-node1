@@ -7,7 +7,7 @@ on:
       - published
 jobs:
   publish_to_npmjs:
-    # if: ${{ github.event.release.prerelease ==  false }}
+    if: ${{ github.event.release.prerelease ==  false }}
     runs-on: ubuntu-latest
     environment: npm_pkg
 

@@ -12,6 +12,7 @@ jobs:
     environment: npm_pkg
 
     steps:
+    # prerelease のような文字が含まれていたら失敗させる.
     - name: Check name and tag_name
       if: >
         ${{ contains(github.event.release.name, 'p') }} || 

@@ -12,8 +12,9 @@ jobs:
     environment: npm_pkg
 
     steps:
-    - name: event
-      run: "echo '${{ toJSON(github.event) }}'"
+    - name: Check name and tag_name
+      if: "${{ contains([github.event.release.name, github.event.release.tag_name], 'p')  || contains([github.event.release.name, github.event.release.tag_name], '-') }}"
+      run: exit 1
 
     - uses: actions/checkout@v2
 

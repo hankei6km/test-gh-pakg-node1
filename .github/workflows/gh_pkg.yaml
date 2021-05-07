@@ -1,12 +1,12 @@
 # https://docs.github.com/ja/actions/guides/publishing-nodejs-packages
-name: Node.js Package
+name: Node.js Package(GitHub Packages)
 on:
   release:
     # draft から publish への対応でサンプルの created から変更
     types:
       - published
 jobs:
-  gh_pkg:
+  publish_to_gh_pkgs:
     runs-on: ubuntu-latest
     environment: gh_pkg
 

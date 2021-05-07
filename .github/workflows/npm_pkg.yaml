@@ -1,12 +1,13 @@
 # https://docs.github.com/ja/actions/guides/publishing-nodejs-packages
-name: Node.js Package
+name: Node.js Package(npmjs)
 on:
   release:
     # draft から publish への対応でサンプルの created から変更
     types:
       - published
 jobs:
-  build:
+  publish_to_npmjs:
+    if: ${{ github.event.action !=  'prereleased' }}
     runs-on: ubuntu-latest
     environment: npm_pkg
 
@@ -18,10 +19,6 @@ jobs:
       with:
         node-version: '14.x'
         registry-url: 'https://registry.npmjs.org'
-
-    - name: Exit at prereleased
-      if: ${{ github.event.action !=  'prereleased' }}
-      run: exit 1
 
     # https://docs.github.com/ja/free-pro-team@latest/actions/guides/caching-dependencies-to-speed-up-workflows
     - name: Cache node modules

@@ -6,7 +6,7 @@ on:
     types:
       - published
 jobs:
-  build:
+  gh_pkg:
     runs-on: ubuntu-latest
     environment: gh_pkg
 

@@ -38,8 +38,6 @@ jobs:
     - name: Change scope
       run: jq '.name |= (sub("^.+/"; "") | sub("^"; "@"+ (env.GITHUB_REPOSITORY | split("/")[0])  +"/")) ' package.json  > tmp_package.json && mv tmp_package.json package.json
 
-    - run: cat package.json
-
     # https://dev.classmethod.jp/articles/github-actions-npm-automatic-release/
     # activity type を published へ変更したので念の為
     # `publishConfig` の書き換えができたらコメント外す.

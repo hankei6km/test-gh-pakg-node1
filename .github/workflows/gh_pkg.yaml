@@ -1,17 +1,19 @@
 # https://docs.github.com/ja/actions/guides/publishing-nodejs-packages
-name: Node.js Package pre release
+name: Node.js Package
 on:
   release:
-    types: [prereleased]
+    # draft から publish への対応でサンプルの created から変更
+    types:
+      - published
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: npm_pkg
+    environment: gh_pkg
 
     steps:
     - uses: actions/checkout@v2
 
-    # GitHub Packages に公開するように .npmrc ファイルを設定する
+    # .npmrc ファイルをセットアップして GitHub Packages に公開する
     - uses: actions/setup-node@v2
       with:
         node-version: '14.x'
@@ -33,7 +35,8 @@ jobs:
           ${{ runner.os }}-build-
 
     # https://dev.classmethod.jp/articles/github-actions-npm-automatic-release/
-    # publishConfig を書き換えるようにしたら利用
+    # activity type を published へ変更したので念の為
+    # `publishConfig` の書き換えができたらコメント外す.
     # - name: can-npm-publish
     #   run: npx can-npm-publish
 
@@ -48,4 +51,4 @@ jobs:
 
     - run: npm publish
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

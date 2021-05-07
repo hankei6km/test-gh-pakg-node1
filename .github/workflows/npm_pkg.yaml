@@ -3,7 +3,8 @@ name: Node.js Package
 on:
   release:
     # draft から publish への対応でサンプルの created から変更
-    types: [published]
+    types:
+      - published
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,6 +18,10 @@ jobs:
       with:
         node-version: '14.x'
         registry-url: 'https://registry.npmjs.org'
+
+    - name: Exit at prereleased
+      if: ${{ github.event.action !=  'prereleased' }}
+      run: exit 1
 
     # https://docs.github.com/ja/free-pro-team@latest/actions/guides/caching-dependencies-to-speed-up-workflows
     - name: Cache node modules

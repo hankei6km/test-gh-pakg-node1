@@ -13,7 +13,11 @@ jobs:
 
     steps:
     - name: Check name and tag_name
-      if: "${{ contains([github.event.release.name, github.event.release.tag_name], 'p')  || contains([github.event.release.name, github.event.release.tag_name], '-') }}"
+      if: >
+        ${{ contains(github.event.release.name, 'p') }} || 
+        ${{ contains(github.event.release.tag_name, 'p') }} || 
+        ${{ contains(github.event.release.name, '-') }} || 
+        ${{ contains(github.event.release.tag_name, '-') }}
       run: exit 1
 
     - uses: actions/checkout@v2

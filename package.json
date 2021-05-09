@@ -1,8 +1,12 @@
 {
   "name": "test-gh-pakg-node1",
-  "version": "0.1.1",
+  "version": "0.1.6",
   "description": "",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:hankei6km/test-gh-pakg-node1.git"
+  },
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
